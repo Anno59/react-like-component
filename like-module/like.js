@@ -60,3 +60,16 @@ const mount = (likeButton,wrapper) => {
     };
 };
 mount(new LikeButton({bgColor:'red'}),wrapper);
+
+React.createElement(
+   'div',
+    null,
+    React.createElement(
+        'h1',
+        {className:'title'},
+        'React小书'
+    )
+);
+
+
+
