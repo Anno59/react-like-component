@@ -94,6 +94,8 @@ import registerServiceWorker from './registerServiceWorker';
 /**
  * #5
  * */
+
+
 class Dog extends Component {
     bark () {
         console.log('bark')
