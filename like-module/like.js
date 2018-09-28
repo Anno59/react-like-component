@@ -38,6 +38,7 @@ class LikeButton extends Component{
     }
 
     createDomEvent(){
+        // console.log(this);
         this.setState(!this.stateLike)
     }
 
@@ -61,15 +62,27 @@ const mount = (likeButton,wrapper) => {
 };
 mount(new LikeButton({bgColor:'red'}),wrapper);
 
-React.createElement(
-   'div',
-    null,
-    React.createElement(
-        'h1',
-        {className:'title'},
-        'React小书'
-    )
-);
+// React.createElement(
+//    'div',
+//     null,
+//     React.createElement(
+//         'h1',
+//         {className:'title'},
+//         'React小书'
+//     )
+// );
 
 
+//异步i/o
+/*
+function test(){
+    console.log(this)
+}
 
+var a = {
+    index:1
+};
+
+console.log(JSON.stringify(a));
+
+a.index++;*/

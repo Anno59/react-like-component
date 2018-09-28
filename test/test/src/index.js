@@ -94,23 +94,64 @@ import registerServiceWorker from './registerServiceWorker';
 /**
  * #5
  * */
+// class Dog extends Component {
+//     bark () {
+//         console.log('bark')
+//     }
+//
+//     run () {
+//         console.log('run')
+//     }
+//
+//     action (){
+//         console.log(this);
+//         this.bark();
+//         this.run();
+//     }
+//
+//     render () {
+//         return (<div onClick={this.action.bind(this)}>DOG</div>)
+//     }
+// }
+//
+// ReactDOM.render(<Dog/>,document.querySelector('#root'));
+
+/**
+ *  #6
+ * */
 class Dog extends Component {
+    constructor () {
+        super()
+        /* TODO */
+        this.state = {
+            'isBarking' : false,
+            'isRunning' : false,
+        }
+    }
+
     bark () {
-        console.log('bark')
+        console.log('bark');
+        this.state.isBarking = !this.state.isBarking;
+        this.setState(this.state)
     }
 
     run () {
-        console.log('run')
+        console.log('run');
+        this.state.isRunning = !this.state.isRunning;
+        this.setState(this.state)
     }
 
-    action (){
-        console.log(this);
+    _touch(){
         this.bark();
         this.run();
+        setTimeout(()=>{
+            this.bark();
+            this.run();
+        },50)
     }
 
     render () {
-        return (<div onClick={this.action.bind(this)}>DOG</div>)
+        return (<div onClick={this._touch.bind(this)}>DOG</div>)
     }
 }
 
