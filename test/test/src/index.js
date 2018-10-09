@@ -153,6 +153,7 @@ class Dog extends Component {
     render () {
         return (<div onClick={this._touch.bind(this)}>DOG</div>)
     }
+
 }
 
 ReactDOM.render(<Dog/>,document.querySelector('#root'));
