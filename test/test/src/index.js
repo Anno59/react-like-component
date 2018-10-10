@@ -238,12 +238,6 @@ import registerServiceWorker from './registerServiceWorker';
  另外一个组件为 LessonsList，接受一个名为 lessons 的 props，它会使用 Lesson 组件把章节列表渲染出来。
  * */
 
-const lessons = [
-    { title: 'Lesson 1: title', description: 'Lesson 1: description' },
-    { title: 'Lesson 2: title', description: 'Lesson 2: description' },
-    { title: 'Lesson 3: title', description: 'Lesson 3: description' },
-    { title: 'Lesson 4: title', description: 'Lesson 4: description' }
-]
 class Lesson extends Component {
     /* TODO */
     render(){
@@ -258,10 +252,18 @@ class Lesson extends Component {
 }
 
 class LessonsList extends Component {
+    static defaultProps = {
+        lessons : [
+            { title: 'Lesson 1: title', description: 'Lesson 1: description' },
+            { title: 'Lesson 2: title', description: 'Lesson 2: description' },
+            { title: 'Lesson 3: title', description: 'Lesson 3: description' },
+            { title: 'Lesson 4: title', description: 'Lesson 4: description' }
+        ]
+    }
     /* TODO */
     render(){
         return(
-            lessons.map((lesson,i)=> <Lesson index={i} key={i} lesson={lesson}/>)
+            this.props.lessons.map((lesson,i)=> <Lesson index={i} key={i} lesson={lesson}/>)
         )
     }
 }
