@@ -119,43 +119,153 @@ import registerServiceWorker from './registerServiceWorker';
 /**
  *  #6
  * */
-class Dog extends Component {
-    constructor () {
-        super()
-        /* TODO */
-        this.state = {
-            'isBarking' : false,
-            'isRunning' : false,
-        }
-    }
+// class Dog extends Component {
+//     constructor () {
+//         super()
+//         /* TODO */
+//         this.state = {
+//             'isBarking' : false,
+//             'isRunning' : false,
+//         }
+//     }
+//
+//     bark () {
+//         console.log('bark');
+//         this.state.isBarking = !this.state.isBarking;
+//         this.setState(this.state)
+//     }
+//
+//     run () {
+//         console.log('run');
+//         this.state.isRunning = !this.state.isRunning;
+//         this.setState(this.state)
+//     }
+//
+//     _touch(){
+//         this.bark();
+//         this.run();
+//         setTimeout(()=>{
+//             this.bark();
+//             this.run();
+//         },50)
+//     }
+//
+//     render () {
+//         return (<div onClick={this._touch.bind(this)}>DOG</div>)
+//     }
+//
+// }
+//
+// ReactDOM.render(<Dog/>,document.querySelector('#root'));
 
-    bark () {
-        console.log('bark');
-        this.state.isBarking = !this.state.isBarking;
-        this.setState(this.state)
-    }
 
-    run () {
-        console.log('run');
-        this.state.isRunning = !this.state.isRunning;
-        this.setState(this.state)
-    }
+/**
+ *#7 打开和关闭电脑
+ *
+ *  完成两个组件，电脑 Computer 和显示器 Screen。
+ *  电脑有个 status 状态表示电脑现在是开还是关的，status 为 on 为开，status 为 off 为关，默认状态为 off。电脑有个按钮，点击可以自由切换电脑的开关状态。
+ *  显示器接受一个名为 showContent 的 props，显示器会把它内容显示出来。如果不传入 showContent，显示器显示 “无内容”。
+ *  电脑包含显示器，当电脑状态为开的时候显示器显示“显示器亮了”，否则显示“显示器关了”。
+ *
+ * */
 
-    _touch(){
-        this.bark();
-        this.run();
-        setTimeout(()=>{
-            this.bark();
-            this.run();
-        },50)
-    }
+// class Computer extends Component {
+//     constructor(){
+//         super();
+//         this.state = {
+//             status : 'off'
+//         }
+//     }
+//
+//     switchState(){
+//         let status,showContent;
+//         if(this.state.status == 'off'){
+//             status = 'on';
+//             showContent = '开了'
+//         }else{
+//             status = 'off';
+//             showContent = '关了'
+//         }
+//         this.setState({
+//             status : status,
+//             showContent : showContent
+//         })
+//     }
+//
+//     render () {
+//         return (
+//             <div>
+//                 <button onClick={this.switchState.bind(this)}>开关</button>
+//                 <Screen showContent={this.state.showContent}></Screen>
+//             </div>
+//         )
+//     }
+// }
+//
+// class Screen extends Component {
+//     static defaultProps = {
+//         showContent: '无内容'
+//     }
+//
+//     render () {
+//         const showContent = this.props.showContent;
+//         return (
+//             <div className='screen'>{showContent}</div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(<Computer/>,document.querySelector('#root'));
 
-    render () {
-        return (<div onClick={this._touch.bind(this)}>DOG</div>)
-    }
+/**
+ *#8 打印章节标题
+ *
+ 现在需要在页面上显示一本书的章节，章节内容存放到一个数组里面：
 
+ const lessons = [
+ { title: 'Lesson 1: title', description: 'Lesson 1: description' },
+ { title: 'Lesson 2: title', description: 'Lesson 2: description' },
+ { title: 'Lesson 3: title', description: 'Lesson 3: description' },
+ { title: 'Lesson 4: title', description: 'Lesson 4: description' }
+ ...
+ ]
+ 现在需要你构建两个组件。一个组件为 Lesson 组件，渲染特定章节的内容。可以接受一个名为 lesson 的 props，并且把章节以下面的格式显示出来：
+
+ <h1>Lesson 1: title</h1>
+ <p>Lesson 1: description</p>
+ 点击每个章节的时候，需要把章节在列表中的下标和它的标题打印（console.log）出来，例如第一个章节打印： 0 - Lesson 1: title，第二个章节打印：1 - Lesson 2: title。
+
+ 另外一个组件为 LessonsList，接受一个名为 lessons 的 props，它会使用 Lesson 组件把章节列表渲染出来。
+ * */
+
+const lessons = [
+    { title: 'Lesson 1: title', description: 'Lesson 1: description' },
+    { title: 'Lesson 2: title', description: 'Lesson 2: description' },
+    { title: 'Lesson 3: title', description: 'Lesson 3: description' },
+    { title: 'Lesson 4: title', description: 'Lesson 4: description' }
+]
+class Lesson extends Component {
+    /* TODO */
+    render(){
+        const {lesson,index} = this.props;
+        return(
+            <div>
+                <h1 onClick={()=> console.log(`${index} - ${lesson.title}`)}>{lesson.title}</h1>
+                <p>{lesson.description}</p>
+            </div>
+        )
+    }
 }
 
-ReactDOM.render(<Dog/>,document.querySelector('#root'));
+class LessonsList extends Component {
+    /* TODO */
+    render(){
+        return(
+            lessons.map((lesson,i)=> <Lesson index={i} key={i} lesson={lesson}/>)
+        )
+    }
+}
+
+ReactDOM.render(<LessonsList/>,document.querySelector('#root'));
 
 registerServiceWorker();
