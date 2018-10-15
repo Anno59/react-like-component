@@ -15,6 +15,7 @@ class CommentApp extends Component{
 				}
       }
     }
+
     handleInputComment(comment){
       console.log(comment);
       this.setState = {
