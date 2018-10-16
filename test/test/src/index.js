@@ -238,36 +238,136 @@ import registerServiceWorker from './registerServiceWorker';
  另外一个组件为 LessonsList，接受一个名为 lessons 的 props，它会使用 Lesson 组件把章节列表渲染出来。
  * */
 
-class Lesson extends Component {
-    /* TODO */
-    render(){
-        const {lesson,index} = this.props;
-        return(
+// class Lesson extends Component {
+//     /* TODO */
+//     render(){
+//         const {lesson,index} = this.props;
+//         return(
+//             <div>
+//                 <h1 onClick={()=> console.log(`${index} - ${lesson.title}`)}>{lesson.title}</h1>
+//                 <p>{lesson.description}</p>
+//             </div>
+//         )
+//     }
+// }
+//
+// class LessonsList extends Component {
+//     static defaultProps = {
+//         lessons : [
+//             { title: 'Lesson 1: title', description: 'Lesson 1: description' },
+//             { title: 'Lesson 2: title', description: 'Lesson 2: description' },
+//             { title: 'Lesson 3: title', description: 'Lesson 3: description' },
+//             { title: 'Lesson 4: title', description: 'Lesson 4: description' }
+//         ]
+//     }
+//     /* TODO */
+//     render(){
+//         return(
+//             this.props.lessons.map((lesson,i)=> <Lesson index={i} key={i} lesson={lesson}/>)
+//         )
+//     }
+// }
+//
+// ReactDOM.render(<LessonsList/>,document.querySelector('#root'));
+
+
+/**
+ * #9 百分比换算器
+ 做一个百分比换算器，需要你完成三个组件：
+
+ <Input />：封装了原生的<input />，可以输入任意数字
+
+ <PercentageShower />：实时 显示 <Input /> 中的数字内容，但是需要把它转换成百分比，例如 <Input /> 输入的是 0.1，那么就要显示 10.00%，保留两位小数。
+
+ <PercentageApp />：组合上述两个组件。
+ * */
+class Input extends Component {
+    constructor(){
+        super();
+        this.state = {
+            value : ''
+        }
+    }
+
+    _handleChange(e){
+        this.setState({
+            value:e.target.value
+        });
+        console.log(e.target.value)
+        this.props.content(e.target.value)
+    }
+
+
+
+    render () {
+        return (
             <div>
-                <h1 onClick={()=> console.log(`${index} - ${lesson.title}`)}>{lesson.title}</h1>
-                <p>{lesson.description}</p>
+                <input type='number'
+                       onChange={this._handleChange.bind(this)}
+                       value={this.state.value}
+                />
             </div>
         )
     }
 }
 
-class LessonsList extends Component {
-    static defaultProps = {
-        lessons : [
-            { title: 'Lesson 1: title', description: 'Lesson 1: description' },
-            { title: 'Lesson 2: title', description: 'Lesson 2: description' },
-            { title: 'Lesson 3: title', description: 'Lesson 3: description' },
-            { title: 'Lesson 4: title', description: 'Lesson 4: description' }
-        ]
-    }
-    /* TODO */
-    render(){
-        return(
-            this.props.lessons.map((lesson,i)=> <Lesson index={i} key={i} lesson={lesson}/>)
+class PercentageShower extends Component {
+    // constructor(){
+    //     super();
+    //     this.state = {
+    //         content: ''
+    //     }
+    // }
+
+    // handleInputValue(){
+    //     let content = (this.props.content * 100) + '%';
+    //     this.setState({
+    //         content : content
+    //     })
+    // }
+
+    render () {
+        // this.handleInputValue();
+        return (
+            <div>{this.props.content}</div>
         )
     }
 }
 
-ReactDOM.render(<LessonsList/>,document.querySelector('#root'));
+class PercentageApp extends Component {
+    constructor(){
+        super();
+        this.state = {
+            inputValue: '',
+            content: ''
+        }
+    }
+
+    getInputValue(value) {
+        this.setState({
+            inputValue: value
+        })
+        this.handleInputValue.bind(this)()
+    }
+
+    handleInputValue(){
+        console.log(this.state)
+        let content = (this.state.inputValue * 100) + '%';
+        this.setState({
+            content : content
+        })
+    }
+
+    render () {
+        return (
+            <div>
+                <Input content={this.getInputValue.bind(this)}/>
+                <PercentageShower content={this.state.content}/>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<PercentageApp/>,document.querySelector('#root'))
 
 registerServiceWorker();
