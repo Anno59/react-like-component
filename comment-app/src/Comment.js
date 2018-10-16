@@ -4,12 +4,12 @@
 import React,{Component} from 'react';
 
 class Comment extends Component{
-    static defaultProps = {
-        comment:{
-            username:'',
-            content:''
-        }
-    }
+    // static defaultProps = {
+    //     comment:{
+    //         username:'',
+    //         content:''
+    //     }
+    // }
     render(){
         return(
           <div className='comment'>

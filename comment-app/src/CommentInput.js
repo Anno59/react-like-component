@@ -32,6 +32,9 @@ class CommentInput extends Component{
     handleSubmitChange(e){
         const {username,content} = this.state;
         this.props.comment({username,content});
+        this.setState({
+          content:''
+        })
     }
     render(){
         return(
