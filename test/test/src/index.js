@@ -20,8 +20,8 @@ import './index.css';
 // renderContent('test');
 
 /**
-* #2
-* */
+ * #2
+ * */
 // function getNotificationsCount(count){
 //     class Notification extends Component{
 //         render(){
