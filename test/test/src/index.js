@@ -293,11 +293,8 @@ class Input extends Component {
         this.setState({
             value:e.target.value
         });
-        console.log(e.target.value)
         this.props.content(e.target.value)
     }
-
-
 
     render () {
         return (
@@ -325,7 +322,6 @@ class PercentageShower extends Component {
     //         content : content
     //     })
     // }
-
     render () {
         // this.handleInputValue();
         return (
@@ -338,29 +334,16 @@ class PercentageApp extends Component {
     constructor(){
         super();
         this.state = {
-            inputValue: '',
             content: ''
         }
     }
 
     getInputValue(value) {
-        console.log(this.state);
-        this.setState({
-            inputValue: value
-        },() => {
-            this.handleInputValue.bind(this)()
-        })
-        // console.log(this.state);
-    }
-
-    handleInputValue(){
-        let content = (this.state.inputValue * 100) + '%';
-        // console.log(content,this.state.content);
+        let content = value;
+        content = (content * 100).toFixed(2)+'%';
         this.setState({
             content : content
         })
-        console.log(this.state.content);
-
     }
 
     render () {
