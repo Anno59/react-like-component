@@ -281,81 +281,282 @@ import './index.css';
 
  <PercentageApp />：组合上述两个组件。
  * */
-class Input extends Component {
-    constructor(){
-        super();
-        this.state = {
-            value : ''
-        }
-    }
 
-    _handleChange(e){
-        this.setState({
-            value:e.target.value
-        });
-        this.props.content(e.target.value)
-    }
+// class Input extends Component {
+//     constructor(){
+//         super();
+//         this.state = {
+//             value : ''
+//         }
+//     }
+//
+//     _handleChange(e){
+//         this.setState({
+//             value:e.target.value
+//         });
+//         this.props.content(e.target.value)
+//     }
+//
+//     render () {
+//         return (
+//             <div>
+//                 <input type='number'
+//                        onChange={this._handleChange.bind(this)}
+//                        value={this.state.value}
+//                 />
+//             </div>
+//         )
+//     }
+// }
+//
+// class PercentageShower extends Component {
+//     // constructor(){
+//     //     super();
+//     //     this.state = {
+//     //         content: ''
+//     //     }
+//     // }
+//
+//     // handleInputValue(){
+//     //     let content = (this.props.content * 100) + '%';
+//     //     this.setState({
+//     //         content : content
+//     //     })
+//     // }
+//     render () {
+//         // this.handleInputValue();
+//         return (
+//             <div>{this.props.content}</div>
+//         )
+//     }
+// }
+//
+// class PercentageApp extends Component {
+//     constructor(){
+//         super();
+//         this.state = {
+//             content: ''
+//         }
+//     }
+//
+//     getInputValue(value) {
+//         let content = value;
+//         content = (content * 100).toFixed(2)+'%';
+//         this.setState({
+//             content : content
+//         })
+//     }
+//
+//     render () {
+//         return (
+//             <div>
+//                 <Input content={this.getInputValue.bind(this)}/>
+//                 <PercentageShower content={this.state.content}/>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(<PercentageApp/>,document.querySelector('#root'));
 
-    render () {
-        return (
-            <div>
-                <input type='number'
-                       onChange={this._handleChange.bind(this)}
-                       value={this.state.value}
-                />
-            </div>
-        )
-    }
-}
+/**
+* 时钟应用
+* */
 
-class PercentageShower extends Component {
-    // constructor(){
-    //     super();
-    //     this.state = {
-    //         content: ''
+// class Clock extends Component{
+//     constructor(){
+//         super();
+//         this.state = {
+//             time : new Date()
+//         }
+//     }
+//
+//     componentWillMount(){
+//         let time = +this.state.time;
+//         this.state.setTimeInterval = setInterval(() => {
+//             this.setState({
+//                 time : new Date(time += 1000)
+//             })
+//         },1000);
+//         // this.timer = setInterval(() => {
+//         //     this.setState({ time: new Date() })
+//         // }, 1000)
+//     }
+//
+//     componentWillUnmount(){
+//         clearInterval(this.state.setTimeInterval);
+//     }
+//
+//     render(){
+//         return(
+//             <div>
+//                 <h1>现在的时间是</h1>
+//                 <p>{this.state.time.toLocaleTimeString()}</p>
+//             </div>
+//         )
+//     }
+// }
+//
+// class Index extends Component{
+//     constructor(){
+//         super();
+//         this.state = {
+//             showClock : true
+//         }
+//     }
+//
+//     handleClick(){
+//         this.setState({
+//             showClock: !this.state.showClock
+//         })
+//     }
+//
+//     render(){
+//         return(
+//             <div>
+//                 {this.state.showClock ? <Clock/> : null}
+//                 <button onClick={this.handleClick.bind(this)}>test</button>
+//             </div>
+//         )
+//     }
+// }
+// ReactDOM.render(<Index/>,document.querySelector('#root'));
+
+/**
+ * react update
+ * */
+
+// class Index extends Component{
+//     constructor(){
+//         super();
+//         this.state = {
+//             focus : false
+//         }
+//     }
+//
+//     componentWillMount(){
+//         this.setState({
+//             focus : true
+//         })
+//     }
+//
+//     render(){
+//         return(
+//             <div>
+//                 <input type="text" onFocus={()=>console.log(this.state.focus)}/>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(<Index/>, document.querySelector('#root'));
+
+/**
+ * #11 获取文本的高度
+ *
+ 完成 Post 组件，接受一个字符串的 content 作为 props，Post 会把它显示到自己的 <p> 元素内。
+
+ 并且，点击 <p> 元素的时候，会使用 console.log 把元素的高度打印出来。
+ * */
+
+// const Post = props => {
+//     return (
+//         <p ref={ p => {this.p = p} } onClick={ () => console.log(this.p.clientHeight) }>
+//             {props.content}
+//         </p>
+//     )
+// }
+
+// class Post extends Component{
+//     render () {
+//         return (
+//             <p onClick={() => {console.log(this.p.offsetHeight)}} ref={(p) =>　this.p = p}>
+//                 {this.props.content}
+//             </p>
+//         )
+//     }
+// }
+//
+// class Index extends Component{
+//     render (){
+//         return (
+//             <Post content="test"/>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(<Index/>,document.querySelector('#root'));
+
+/**
+ * #13 黑色边框的容器组件
+ *
+ 实现一个组件 BlackBorderContainer，它会把作为它的嵌套结构的 每个直接子元素 都用一个黑色边框的 div 包裹起来。例如：
+ <BlackBorderContainer>
+ <div className='name'>My Name：Lucy</div>
+ <p className='age'>
+ My Age：<span>12</span>
+ </p>
+ </BlackBorderContainer>
+ 最后的 div.name 和 p.age 都具有一层黑色边框（1px solid #000000）外层结构。
+ * */
+
+// class BlackBorderContainer extends Component {
+//     render(){
+//         return(
+//             this.props.children.map((ele,index)=>{
+//                 return(
+//                     <div key={index} className="border">
+//                         {ele}
+//                     </div>
+//                 )
+//             })
+//         )
+//     }
+// }
+//
+// ReactDOM.render(
+//     <BlackBorderContainer>
+//         <div className='name'>My Name：Lucy</div>
+//         <p className='age'>
+//             My Age：<span>12</span>
+//         </p>
+//     </BlackBorderContainer>
+//     ,document.querySelector('#root'));
+
+
+/**
+ *
+ #12 覆盖默认样式
+
+ 完成一个函数 getDefaultStyledPost，这个函数接受一个表示样式的对象作为参数，返回一个组件只有 <p> 元素的组件：
+
+ const Post = getDefaultStyledPost({ color: 'red' })
+ <Post /> // <p>任意内容</p>，颜色为红色
+ 渲染出来的 <p> 元素要具有 getDefaultStyledPost 所接受对象所表示的样式。此外，返回的 Post 组件还要能够接受一个 style 对象作为 props，这个对象会和原来的样式进行合并显示：
+
+ const Post = getDefaultStyledPost({ color: 'red' })
+ <Post style={{ color: 'blue', fontSize: '13px' }} />
+ <Post style={{ fontSize: '12px' }} />
+ 上面第一个 <Post /> 渲染结果为：颜色为蓝色，字体大小为 13px。
+ 上面第二个 <Post /> 渲染结果为：颜色为红色，字体大小为 12px。
+
+ * */
+
+// const getDefaultStyledPost = (defaultStyle) => {
+    //(1
+    // return (
+    //     class Test extends Component{
+    //         render(){
+    //             const elementStyle = {...defaultStyle,...this.props.style};
+    //             return(
+    //                 <p style={elementStyle}>
+    //                     something
+    //                 </p>
+    //             )
+    //         }
     //     }
-    // }
-
-    // handleInputValue(){
-    //     let content = (this.props.content * 100) + '%';
-    //     this.setState({
-    //         content : content
-    //     })
-    // }
-    render () {
-        // this.handleInputValue();
-        return (
-            <div>{this.props.content}</div>
-        )
-    }
-}
-
-class PercentageApp extends Component {
-    constructor(){
-        super();
-        this.state = {
-            content: ''
-        }
-    }
-
-    getInputValue(value) {
-        let content = value;
-        content = (content * 100).toFixed(2)+'%';
-        this.setState({
-            content : content
-        })
-    }
-
-    render () {
-        return (
-            <div>
-                <Input content={this.getInputValue.bind(this)}/>
-                <PercentageShower content={this.state.content}/>
-            </div>
-        )
-    }
-}
-
-ReactDOM.render(<PercentageApp/>,document.querySelector('#root'));
-
-// registerServiceWorker();
+    // )
+    //
+    //(2
+    // return props => <p style={{...defaultStyle,...this.props.style}}/>;
+// };
