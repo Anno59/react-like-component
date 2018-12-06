@@ -589,4 +589,8 @@ import './index.css';
 // getData(url) 已经可以直接使用
 // 本站的环境都可以使用 async/await
 
-const loadAndRefresh = test; /* TODO */
+const loadAndRefresh = 'test'; /* TODO */
+
+
+
+
