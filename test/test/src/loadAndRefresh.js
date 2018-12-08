@@ -1,23 +1,17 @@
-import {Component} from 'React';
+import React, {Component} from 'React';
 
-const loadAndRefresh = (url) => (OldComponent) => {
-        class NewComponent extends Component{
-            constructor(){
-                super();
+export default (url) => (WrappedComponent) => {
+    return class extends Component{
+        render(){
+            const props = {
+                ...this.props,
+                content:'',
+                refresh:'',
+            };
 
-            }
-            render(){
-                const state = {
-                    content : '',
-                    refresh : ''
-                };
-                return (
-                <OldComponent content={state.content} refresh={state.refresh} />
-                )
-            }
+            return(
+                <WrappedComponent {...props}/>
+            )
         }
-        return NewComponent
     }
-};
-
-export default loadAndRefresh;
+}

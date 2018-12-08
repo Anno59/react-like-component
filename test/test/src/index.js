@@ -589,6 +589,24 @@ import './index.css';
 // getData(url) 已经可以直接使用
 // 本站的环境都可以使用 async/await
 
+// import React, {Component} from 'React';
+//
+// export default (url) => (WrappedComponent) => {
+//     return class extends Component{
+//         render(){
+//             const props = {
+//                 ...this.props,
+//                 content:'',
+//                 refresh:'',
+//             };
+//
+//             return(
+//                 <WrappedComponent {...props}/>
+//             )
+//         }
+//     }
+// }
+
 //The Key
 // const loadAndRefresh = (url) => (WrappedComponent) => {
 //     return class extends Component {
