@@ -1,4 +1,4 @@
-import React , {Component} from 'react';
+import React , {Component,PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
@@ -584,10 +584,11 @@ import './index.css';
  环境中已经定义好了一个 getData(url) 的返回 Promise 的函数，它会去服务器取一个字符串的文本，你需要通过 content 的 props 把它传给被包裹的组件。组件在第一次加载还有 refresh 的时候会去服务器取数据。
 
  另外，组件在加载数据的时候，content 显示 数据加载中...。而且，所有传给 loadAndRefresh 返回的组件的 props 要原封不动传给被包裹的组件。
- * */
 
-// getData(url) 已经可以直接使用
-// 本站的环境都可以使用 async/await
+ getData(url) 已经可以直接使用
+
+ 本站的环境都可以使用 async/await
+ * */
 
 // import React, {Component} from 'React';
 //
@@ -632,6 +633,117 @@ import './index.css';
 //     }
 // }
 
+/**
+ * React context
+ * */
 
+// class Index extends Component {
+//     static childContextTypes = {
+//         themeColor : ''
+//     };
+//
+//     constructor(){
+//         super();
+//         this.state = {
+//             themeColor : 'red'
+//         }
+//     }
+//
+//     getChildContext(){
+//         return {
+//             themeColor : this.state.themeColor
+//         }
+//     }
+//
+//     componentWillMount(){
+//         this.setState({
+//             themeColor: 'green'
+//         })
+//     }
+//
+//     render () {
+//         return (
+//             <div>
+//                 <Header />
+//                 <Main />
+//             </div>
+//         )
+//     }
+// }
+//
+// class Header extends Component {
+//     render () {
+//         return (
+//             <div>
+//                 <h2>This is header</h2>
+//                 <Title />
+//             </div>
+//         )
+//     }
+// }
+//
+// class Main extends Component {
+//     render () {
+//         return (
+//             <div>
+//                 <h2>This is main</h2>
+//                 <Content />
+//             </div>
+//         )
+//     }
+// }
+//
+// class Title extends Component {
+//     static contextTypes = {
+//         themeColor: ''
+//     };
+//
+//
+//     render () {
+//         return (
+//             <h1 style={{color:this.context.themeColor}}>React.js 小书标题</h1>
+//         )
+//     }
+// }
+//
+// class Content extends Component {
+//     render () {
+//         return (
+//             <div>
+//                 <h2>React.js 小书内容</h2>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(
+//     <Index />,
+//     document.getElementById('root')
+// );
 
+/**
+ * #15 高阶组件 + context
+ *
+ * 完成高阶组件 makeProvider，接受一个任意类型的数据和组件作为参数：
 
+ Post = makeProvider({ name: 'Jerry' })(Post)
+ Post 下的所有子组件都可以通过 this.context.data 获取到传给 makeProvider 的参数。如上面的 Post 及其子组件的内部可以通过 this.context.data.name 获取到 Jerry。
+ * */
+
+// const makeProvider = (data) => (WrapperComponent) => {
+//     return class extends Component{
+//         static childContextProps = {data};
+//
+//         getChildContext(){
+//             return {data}
+//         }
+//
+//         render(){
+//             return (
+//                 <WrapperComponent {...this.props}/>
+//             )
+//         }
+//     }
+// }
+//
+// export default makeProvider;
