@@ -730,20 +730,20 @@ import './index.css';
  Post 下的所有子组件都可以通过 this.context.data 获取到传给 makeProvider 的参数。如上面的 Post 及其子组件的内部可以通过 this.context.data.name 获取到 Jerry。
  * */
 
-// const makeProvider = (data) => (WrapperComponent) => {
-//     return class extends Component{
-//         static childContextProps = {data};
-//
-//         getChildContext(){
-//             return {data}
-//         }
-//
-//         render(){
-//             return (
-//                 <WrapperComponent {...this.props}/>
-//             )
-//         }
-//     }
-// }
-//
+const makeProvider = (data) => (WrapperComponent) => {
+    return class extends Component{
+        static childContextProps = {data};
+
+        getChildContext(){
+            return {data}
+        }
+
+        render(){
+            return (
+                <WrapperComponent {...this.props}/>
+            )
+        }
+    }
+};
+
 // export default makeProvider;
