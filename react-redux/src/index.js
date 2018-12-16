@@ -1,3 +1,22 @@
+function createStore(state, changeState){
+    const handle = [];
+
+    const subscribe = (callback) => {
+        handle.push(callback);
+    };
+
+    const dispatch = (action) => {
+        changeState(action);
+        handle.forEach(
+            (callback) => callback()
+        )
+    };
+
+    const getState = () => state;
+
+    return {getState, subscribe, dispatch}
+}
+
 const appState = {
     title:{
         text:'React',
@@ -9,7 +28,7 @@ const appState = {
     }
 }
 
-function dispatch(action){
+function changeState(action){
     switch(action.type){
         case 'UPDATE_TITLE_TEXT':
             appState.title.text = action.text;
@@ -23,8 +42,8 @@ function dispatch(action){
 }
 
 function renderApp (appState) {
-    renderTitle(appState.title)
-    renderContent(appState.content)
+    renderTitle(appState.title);
+    renderContent(appState.content);
 }
 
 function renderTitle (title) {
@@ -39,7 +58,9 @@ function renderContent (content) {
     contentDOM.style.color = content.color
 }
 
-renderApp(appState);
-dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React.js 小书》' }) // 修改标题文本
-dispatch({ type: 'UPDATE_TITLE_COLOR', color: 'blue' }) // 修改标题颜色
-renderApp(appState)
+const App = createStore(appState, changeState);
+App.subscribe(()=>renderApp(App.getState()));
+
+renderApp(App.getState());
+App.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React.js》' }); // 修改标题文本
+App.dispatch({ type: 'UPDATE_TITLE_COLOR', color: 'red' }); // 修改标题颜色
