@@ -42,17 +42,20 @@ function changeState(action){
 }
 
 function renderApp (appState) {
+    console.log('App')
     renderTitle(appState.title);
     renderContent(appState.content);
 }
 
 function renderTitle (title) {
+    console.log('title')
     const titleDOM = document.getElementById('title')
     titleDOM.innerHTML = title.text
     titleDOM.style.color = title.color
 }
 
 function renderContent (content) {
+    console.log('content')
     const contentDOM = document.getElementById('content')
     contentDOM.innerHTML = content.text
     contentDOM.style.color = content.color
