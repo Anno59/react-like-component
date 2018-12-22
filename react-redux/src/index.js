@@ -1,12 +1,13 @@
-function createStore(state, changeState){
+function createStore(reducer){
     const handle = [];
+    let state = null;
 
     const subscribe = (callback) => {
         handle.push(callback);
     };
 
     const dispatch = (action) => {
-        state = changeState(state, action);
+        state = reducer(state, action);
         handle.forEach(
             (callback) => callback()
         )
@@ -14,21 +15,25 @@ function createStore(state, changeState){
 
     const getState = () => state;
 
+    dispatch();
+
     return {getState, subscribe, dispatch}
 }
 
-const appState = {
-    title:{
-        text:'React',
-        color:'red',
-    },
-    content:{
-        text:'React-content',
-        color:'blue',
+function reducer(state, action){
+    if(!state){
+        return  {
+            title:{
+                text:'React',
+                color:'red',
+            },
+            content:{
+                text:'React-content',
+                color:'blue',
+            }
+        }
     }
-}
 
-function changeState(state, action){
     switch(action.type){
         case 'UPDATE_TITLE_TEXT':
             // appState.title.text = action.text;
@@ -79,7 +84,7 @@ function renderContent (content, oldContent = {}) {
     contentDOM.style.color = content.color
 }
 
-const App = createStore(appState, changeState);
+const App = createStore(reducer);
 let oldApp = App.getState();
 App.subscribe(
     ()=>{
