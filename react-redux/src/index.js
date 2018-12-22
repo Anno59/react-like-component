@@ -7,7 +7,6 @@ function createStore(state, changeState){
 
     const dispatch = (action) => {
         state = changeState(state, action);
-        console.log(JSON.stringify(state))
         handle.forEach(
             (callback) => callback()
         )
@@ -56,16 +55,16 @@ function changeState(state, action){
 
 function renderApp (appState,oldAppState = {}) {
     if(appState === oldAppState)
-        return
-    // console.log('App')
+        return;
+    console.log('App')
     renderTitle(appState.title, oldAppState.title);
     renderContent(appState.content, oldAppState.content);
 }
 
 function renderTitle (title, oldTitle = {}) {
     if(title === oldTitle)
-        return
-    // console.log('title')
+        return;
+    console.log('title')
     const titleDOM = document.getElementById('title')
     titleDOM.innerHTML = title.text
     titleDOM.style.color = title.color
@@ -73,8 +72,8 @@ function renderTitle (title, oldTitle = {}) {
 
 function renderContent (content, oldContent = {}) {
     if(content === oldContent)
-        return
-    console.log('content',content,oldContent)
+        return;
+    console.log('content')
     const contentDOM = document.getElementById('content')
     contentDOM.innerHTML = content.text
     contentDOM.style.color = content.color
@@ -91,10 +90,10 @@ App.subscribe(
 );
 
 renderApp(App.getState());
-// App.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React》' }); // 修改标题文本
+App.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React》' }); // 修改标题文本
 App.dispatch({ type: 'UPDATE_TITLE_COLOR', color: 'blue' }); // 修改标题颜色
 // appState.content = {};
-appState.title.text = '';    //浅复制，指向同一内存的指针都改变
-appState.content = ''; //深复制
-console.log(JSON.stringify(appState))
-console.log(JSON.stringify(App.getState()))
+// appState.title.text = '';    //浅复制，指向同一内存的指针都改变
+// appState.content = ''; //深复制
+// console.log(JSON.stringify(appState))
+// console.log(JSON.stringify(App.getState()))
