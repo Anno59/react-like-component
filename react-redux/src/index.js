@@ -86,13 +86,11 @@ function renderContent (content, oldContent = {}) {
 
 const App = createStore(reducer);
 let oldApp = App.getState();
-App.subscribe(
-    ()=>{
-        let newApp = App.getState();
-        renderApp(newApp,oldApp);
-        oldApp = newApp;
-    }
-);
+App.subscribe(()=>{
+    let newApp = App.getState();
+    renderApp(newApp,oldApp);
+    oldApp = newApp;
+});
 
 renderApp(App.getState());
 App.dispatch({ type: 'UPDATE_TITLE_TEXT', text: '《React》' }); // 修改标题文本
