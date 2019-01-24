@@ -1,6 +1,9 @@
-import React , {Component,PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React , {Component,PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 
@@ -764,33 +767,35 @@ export default makeProvider;
 //
 // 注意，usersReducer 的 state 就是一个数组，你不需用把它包装到一个对象当中。
 
-// let state = [];
-//
-// const usersReducer = (state, action) => {
-//     switch(action.type){
-//         case 'ADD_USER':
-//             return [...state,action.user];
-//         break;
-//         case 'UPDATE_USER':
-//             return [...state.map((user, index) => {
-//                 if(index === action.index){
-//                     return {...user, ...action.user}
-//                 }
-//             })];
-//         break;
-//         case 'DELETE_USER':
-//             return [...state.slice(0, action.index), ...state.slice(action.index+1)];
-//         break;
-//         default:
-//             return state
-//     }
-// };
-//
+let state = [];
+
+const usersReducer = (state, action) => {
+    switch(action.type){
+        case 'ADD_USER':
+            return [...state,action.user];
+        break;
+        case 'UPDATE_USER':
+            return [...state.map((user, index) => {
+                if(index === action.index){
+                    return {...user, ...action.user}
+                }
+            })];
+        break;
+        case 'DELETE_USER':
+            return [...state.slice(0, action.index), ...state.slice(action.index+1)];
+        break;
+        default:
+            return state
+    }
+};
+
 // const dispatch = (action) => {
 //     state = usersReducer(state, action);
 //     console.log(JSON.stringify(state));
 // };
-//
+
+state = createStore(usersReducer);
+
 // dispatch({
 //     type: 'ADD_USER',
 //     user: {
@@ -799,11 +804,11 @@ export default makeProvider;
 //         gender: 'female'
 //     }
 // })
-//
-//
-// /* 通过 id 删除用户操作 */
-//
-// /* 修改用户操作 */
+
+
+/* 通过 id 删除用户操作 */
+
+/* 修改用户操作 */
 // dispatch({
 //     type: 'UPDATE_USER',
 //     index: 0,
@@ -813,7 +818,7 @@ export default makeProvider;
 //         gender: 'male'
 //     }
 // });
-//
+
 // dispatch({
 //     type: 'DELETE_USER',
 //     index: 0 // 删除特定下标用户
