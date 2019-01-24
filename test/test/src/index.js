@@ -767,23 +767,87 @@ export default makeProvider;
 //
 // 注意，usersReducer 的 state 就是一个数组，你不需用把它包装到一个对象当中。
 
+// let state = [];
+//
+// const usersReducer = (state, action) => {
+//     switch(action.type){
+//         case 'ADD_USER':
+//             return [...state,action.user];
+//         break;
+//         case 'UPDATE_USER':
+//             return [...state.map((user, index) => {
+//                 if(index === action.index){
+//                     return {...user, ...action.user}
+//                 }
+//             })];
+//         break;
+//         case 'DELETE_USER':
+//             return [...state.slice(0, action.index), ...state.slice(action.index+1)];
+//         break;
+//         default:
+//             return state
+//     }
+// };
+//
+// const dispatch = (action) => {
+//     state = usersReducer(state, action);
+//     console.log(JSON.stringify(state));
+// };
+//
+// dispatch({
+//     type: 'ADD_USER',
+//     user: {
+//         username: 'Lucy',
+//         age: 12,
+//         gender: 'female'
+//     }
+// })
+//
+//
+// /* 通过 id 删除用户操作 */
+//
+// /* 修改用户操作 */
+// dispatch({
+//     type: 'UPDATE_USER',
+//     index: 0,
+//     user: {
+//         username: 'Tomy',
+//         age: 12,
+//         gender: 'male'
+//     }
+// });
+//
+// dispatch({
+//     type: 'DELETE_USER',
+//     index: 0 // 删除特定下标用户
+// })
+
+/**
+ #17 React-redux 实现用户列表的显示、增加、删除
+ 直接使用在 实现 Users Reducer 中实现的 userReducer。用 react-redux 完成 UserList、User 组件，可以对用户列表进行显示、增加、删除操作。
+
+ 你不需要实现 store 的生成和使用 Provider，只需要完成 connect 的过程和组件的实现。
+
+ （留意 <input type="number" /> 的字符串和数字的转换问题）
+ * */
+
 let state = [];
 
 const usersReducer = (state, action) => {
     switch(action.type){
         case 'ADD_USER':
             return [...state,action.user];
-        break;
+            break;
         case 'UPDATE_USER':
             return [...state.map((user, index) => {
                 if(index === action.index){
                     return {...user, ...action.user}
                 }
             })];
-        break;
+            break;
         case 'DELETE_USER':
             return [...state.slice(0, action.index), ...state.slice(action.index+1)];
-        break;
+            break;
         default:
             return state
     }
