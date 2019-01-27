@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import Header from './Header'
 import Content from './Content'
 import './index.css'
+import { Provider } from './Provider'
 
 function createStore (reducer) {
     let state = null
@@ -33,13 +34,14 @@ const themeReducer = (state, action) => {
 const store = createStore(themeReducer);
 
 class Index extends Component {
-    static childContextTypes = {
-        store: PropTypes.object
-    };
+    // static contextTypes = {
+    //     store: PropTypes.object
+    // };
 
-    getChildContext () {
-        return {store}
-    }
+    // componentWillMount (){
+    //     const {store} = this.context;
+    //
+    // }
 
     render () {
         return (
@@ -50,6 +52,8 @@ class Index extends Component {
         )
     }
 }
+
+Index = Provider(Index, store);
 
 ReactDOM.render(
     <Index />,
