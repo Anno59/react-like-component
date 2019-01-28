@@ -1,20 +1,25 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { PropTypes } from 'prop-types'
 
-export const Provider = (WrappedWithComponent, store) => {
-    return class extends Component{
-        static childContextTypes = {
-            store : PropTypes.object
-        };
+export class Provider extends Component {
+    static propTypes = {
+        store: PropTypes.object,
+        children: PropTypes.any
+    }
 
-        getChildContext (){
-            return {store}
-        }
+    static childContextTypes = {
+        store: PropTypes.object
+    }
 
-        render (){
-            return(
-                <WrappedWithComponent/>
-            )
+    getChildContext () {
+        return {
+            store: this.props.store
         }
     }
-};
+
+    render () {
+        return (
+            <div>{this.props.children}</div>
+        )
+    }
+}

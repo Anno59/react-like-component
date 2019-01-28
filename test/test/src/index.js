@@ -1,6 +1,9 @@
-import React , {Component,PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React , { Component,PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 
@@ -818,3 +821,170 @@ export default makeProvider;
 //     type: 'DELETE_USER',
 //     index: 0 // 删除特定下标用户
 // })
+
+/**
+ #17 React-redux 实现用户列表的显示、增加、删除
+ 直接使用在 实现 Users Reducer 中实现的 userReducer。用 react-redux 完成 UserList、User 组件，可以对用户列表进行显示、增加、删除操作。
+
+ 你不需要实现 store 的生成和使用 Provider，只需要完成 connect 的过程和组件的实现。
+
+ （留意 <input type="number" /> 的字符串和数字的转换问题）
+ * */
+
+let store = {};
+
+const usersReducer = (state, action) => {
+    switch(action.type){
+        case 'ADD_USER':
+            return [...state,action.user];
+            break;
+        case 'UPDATE_USER':
+            return [...state.map((user, index) => {
+                if(index === action.index){
+                    return {...user, ...action.user}
+                }
+            })];
+            break;
+        case 'DELETE_USER':
+            return [...state.slice(0, action.index), ...state.slice(action.index+1)];
+            break;
+        default:
+            return state
+    }
+};
+
+store = createStore(usersReducer);
+
+/**
+ * 环境中已经注入了 React-redux，你可以直接使用 connect，或者 ReactRedux.connect
+ */
+
+class User extends Component {
+    render () {
+        // console.log(this)
+        const { user,index } = this.props;
+        return (
+            <div>
+                <div>Name: {user.username}</div>
+                <div>Age: {user.age}</div>
+                <div>Gender: {user.gender}</div>
+                <button onClick={this.props.handleDelete} index={index}>删除</button>
+            </div>
+        )
+    }
+}
+
+class UsersList extends Component {
+    constructor(){
+        super();
+        this.state = {
+            user:{
+                username:'',
+                age:'',
+                gender:'',
+            },
+            userList : []
+        }
+    }
+
+    handleAddEvent(){
+        let username = this.username.value;
+        let age = this.age.value;
+        let male = this.male.checked;
+        let gender = male ? 'male' : 'female';
+        let userList = [
+            ...this.state.userList,
+            {
+                username,
+                age,
+                gender,
+            }
+        ];
+
+        this.setState({userList})
+    }
+
+    handleDeleteEvent(e){
+        // console.log(e.target.getAttribute('index'))
+        let deleteIndex = e.target.getAttribute('index');
+        let userList = this.state.userList;
+        console.log([...userList.slice(0,+deleteIndex)])
+        console.log([...userList.slice(+deleteIndex+1)])
+        console.log([...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)])
+        console.log(+deleteIndex,+deleteIndex+1)
+        this.setState({
+            userList : [...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)]
+        })
+    }
+
+    render () {
+        return (
+            <div>
+                 {/*输入用户信息，点击“新增”按钮可以增加用户 */}
+                <div className='add-user'>
+                    <div>Username: <input type='text' ref={(input)=> this.username = input}/></div>
+                    <div>Age: <input type='number' ref={(input)=> this.age = input} /></div>
+                    <div>Gender:
+                        <label>Male: <input type='radio' name='gender' value='male'  ref={(input)=> this.male = input}/></label>
+                        <label>Female: <input type='radio' name='gender' value='female'  ref={(input)=> this.female = input}/></label>
+                    </div>
+                    <button onClick={this.handleAddEvent.bind(this)}>增加</button>
+                </div>
+                 {/*显示用户列表 */}
+                <div className='users-list'>
+                    {
+                        this.state.userList.map((user, key) => {
+                            let prop = {user, key, 'index' : key};
+                            // console.log(user)
+                            return <User {...prop} handleDelete={this.handleDeleteEvent.bind(this)}/>
+                        })
+                    }
+                </div>
+            </div>
+        )
+    }
+}
+
+const connect = (WrappedComponent, mapStateToProps) => {
+    return class extends Component{
+        constructor(){
+            super();
+            this.state = {
+                allProps : {}
+            }
+        }
+
+        componentWillMount(){
+            // console.log(this.props)
+            let stateProps = mapStateToProps();
+            this.setState({
+                allProps : {
+                     ...stateProps,
+                    ...this.props,
+                }
+            })
+        }
+
+        render(){
+            return(
+                <WrappedComponent {...this.state.allProps}/>
+            )
+        }
+    }
+};
+
+let mapStateToProps = () => {
+    return {
+        user : {
+            username : '',
+            age : '',
+            gender : ''
+        }
+    }
+};
+
+User = connect(User, mapStateToProps);
+
+const components = document.querySelector('#root');
+ReactDOM.render(<UsersList/>,components);
+
