@@ -908,10 +908,10 @@ class UsersList extends Component {
         // console.log(e.target.getAttribute('index'))
         let deleteIndex = e.target.getAttribute('index');
         let userList = this.state.userList;
-        console.log([...userList.slice(0,+deleteIndex)])
-        console.log([...userList.slice(+deleteIndex+1)])
-        console.log([...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)])
-        console.log(+deleteIndex,+deleteIndex+1)
+        // console.log([...userList.slice(0,+deleteIndex)])
+        // console.log([...userList.slice(+deleteIndex+1)])
+        // console.log([...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)])
+        // console.log(+deleteIndex,+deleteIndex+1)
         this.setState({
             userList : [...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)]
         })
@@ -936,7 +936,7 @@ class UsersList extends Component {
                         this.state.userList.map((user, key) => {
                             let prop = {user, key, 'index' : key};
                             // console.log(user)
-                            return <User {...prop} handleDelete={this.handleDeleteEvent.bind(this)}/>
+                            return <User {...prop} handleDelete={this.handleDeleteEvent.bind(this)}  index={key} key={key}/>
                         })
                     }
                 </div>
