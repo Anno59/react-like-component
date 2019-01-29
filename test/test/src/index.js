@@ -861,14 +861,14 @@ store = createStore(usersReducer);
 
 class User extends Component {
     render () {
-        const { user,index } = this.props;
+        const { user, index, deleteUser } = this.props;
         console.log(this.props)
         return (
             <div>
                 <div>Name: {user.username}</div>
                 <div>Age: {user.age}</div>
                 <div>Gender: {user.gender}</div>
-                <button onClick={this.props.handleDelete} index={index}>删除</button>
+                <button onClick={()=>deleteUser(index)}>删除</button>
             </div>
         )
     }
@@ -892,16 +892,14 @@ class UsersList extends Component {
         let age = this.age.value;
         let male = this.male.checked;
         let gender = male ? 'male' : 'female';
-        let userList = [
-            ...this.state.userList,
-            {
+        let user ={
                 username,
                 age,
                 gender,
-            }
-        ];
-
-        this.setState({userList})
+            };
+        console.log(this.props.addUser);
+        this.props.addUser(user);
+        // this.setState({userList})
     }
 
     handleDeleteEvent(e){
@@ -911,33 +909,37 @@ class UsersList extends Component {
         // console.log([...userList.slice(+deleteIndex+1)])
         // console.log([...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)])
         // console.log(+deleteIndex,+deleteIndex+1)
-        this.setState({
-            userList : [...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)]
-        })
+        // this.setState({
+        //     userList : [...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)]
+        // })
+        this.props.deleteUser(deleteIndex);
     }
 
     render () {
         // User = connect(User, mapStateToProps);
+        const { username, age, gender } = this.state;
+        const { addUser, deleteUser, users } = this.props;
         console.log(this.state.userList)
         return (
             <div>
                  {/*输入用户信息，点击“新增”按钮可以增加用户 */}
                 <div className='add-user'>
-                    <div>Username: <input type='text' ref={(input)=> this.username = input}/></div>
-                    <div>Age: <input type='number' ref={(input)=> this.age = input} /></div>
+                    <div>Username: <input type='text' value={username} onChange={(e)=> {this.setState({username : e.target.value})}}/></div>
+                    <div>Age: <input type='number' value={age}  ref={(input)=> this.age = input} /></div>
                     <div>Gender:
-                        <label>Male: <input type='radio' name='gender' value='male'  ref={(input)=> this.male = input}/></label>
-                        <label>Female: <input type='radio' name='gender' value='female'  ref={(input)=> this.female = input}/></label>
+                        <label>Male: <input type='radio' name='gender' value='male'  onChange={(e)=>{this.setState({gender: e.target.value})}}/></label>
+                        <label>Female: <input type='radio' name='gender' value='female'  onChange={(e)=>{this.setState({gender: e.target.value})}}/></label>
                     </div>
-                    <button onClick={this.handleAddEvent.bind(this)}>增加</button>
+                    {/*<button onClick={this.props.addUser()}>增加</button>*/}
+                    <button onClick={()=>addUser(this.state)}>增加</button>
                 </div>
                  {/*显示用户列表 */}
                 <div className='users-list'>
                     {
-                        this.state.userList.map((user, key) => {
-                            let prop = {user, key, 'index' : key};
+                        users.map((user, index) => {
+                            let prop = {user, index, 'key' : index, deleteUser};
                             // console.log(user)
-                            return <User {...prop} handleDelete={this.handleDeleteEvent.bind(this)}  index={key} key={key}/>
+                            return <User {...prop}/>
                         })
                     }
                 </div>
@@ -946,7 +948,7 @@ class UsersList extends Component {
     }
 }
 
-const connect = (WrappedComponent, mapStateToProps) => {
+const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
     return class extends Component{
         constructor(){
             super();
@@ -956,12 +958,15 @@ const connect = (WrappedComponent, mapStateToProps) => {
         }
 
         componentWillMount(){
-            console.log(this.props)
-            let stateProps = mapStateToProps();
+            // console.log(store.dispatch);
+            let stateProps = mapStateToProps ? mapStateToProps(store.getState()) : {};
+            let dispatchProps = mapDispatchToProps ? mapDispatchToProps(store.dispatch) : {};
+            console.log(dispatchProps);
             this.setState({
                 allProps : {
                      ...stateProps,
-                    ...this.props,
+                    ...dispatchProps,
+                    // ...this.props,
                 }
             })
         }
@@ -984,17 +989,26 @@ const connect = (WrappedComponent, mapStateToProps) => {
     }
 };
 
-let mapStateToProps = () => {
+let mapStateToProps = (states) => {
     return {
-        user : {
-            username : '',
-            age : '',
-            gender : ''
-        }
+        user : states
     }
 };
 
-User = connect(User, mapStateToProps);
+let mapDispatchToProps = (dispatch) => {
+    return {
+        deleteUser : (index) => dispatch({
+            type: 'DELETE_USER',
+            index,
+        }),
+        addUser : (user) => dispatch({
+            type: 'ADD_USER',
+            user,
+        }),
+    }
+};
+
+UsersList = connect(mapStateToProps, mapDispatchToProps)(UsersList);
 
 const components = document.querySelector('#root');
 ReactDOM.render(<UsersList/>,components);
