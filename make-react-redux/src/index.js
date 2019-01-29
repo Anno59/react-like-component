@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import Header from './Header'
-import Content from './Content'
+import Header from './containers/Header'
+import { content as Content } from './containers/Content'
 import './index.css'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -46,7 +46,7 @@ class Index extends Component {
     }
 }
 
-Index = Provider(Index, store);
+// Index = Provider(Index, store);
 
 ReactDOM.render(
     <Provider store={store}>

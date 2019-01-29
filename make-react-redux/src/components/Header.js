@@ -14,12 +14,4 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        themeColor : state.themeColor
-    }
-};
-
-Header = connect(mapStateToProps)(Header);
-
 export default Header

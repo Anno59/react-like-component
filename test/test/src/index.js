@@ -1012,4 +1012,3 @@ UsersList = connect(mapStateToProps, mapDispatchToProps)(UsersList);
 
 const components = document.querySelector('#root');
 ReactDOM.render(<UsersList/>,components);
-
