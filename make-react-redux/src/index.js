@@ -46,6 +46,8 @@ class Index extends Component {
     }
 }
 
+Index = Provider(Index, store);
+
 ReactDOM.render(
     <Provider store={store}>
         <Index/>
