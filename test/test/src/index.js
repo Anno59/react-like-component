@@ -861,8 +861,8 @@ store = createStore(usersReducer);
 
 class User extends Component {
     render () {
-        // console.log(this)
         const { user,index } = this.props;
+        console.log(this.props)
         return (
             <div>
                 <div>Name: {user.username}</div>
@@ -905,19 +905,18 @@ class UsersList extends Component {
     }
 
     handleDeleteEvent(e){
-        // console.log(e.target.getAttribute('index'))
         let deleteIndex = e.target.getAttribute('index');
         let userList = this.state.userList;
-        console.log([...userList.slice(0,+deleteIndex)])
-        console.log([...userList.slice(+deleteIndex+1)])
         console.log([...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)])
-        console.log(+deleteIndex,+deleteIndex+1)
+        console.log(deleteIndex)
         this.setState({
             userList : [...userList.slice(0,+deleteIndex),...userList.slice(+deleteIndex+1)]
         })
     }
 
     render () {
+        // User = connect(User, mapStateToProps);
+        console.log(this.state.userList)
         return (
             <div>
                  {/*输入用户信息，点击“新增”按钮可以增加用户 */}
@@ -935,7 +934,7 @@ class UsersList extends Component {
                     {
                         this.state.userList.map((user, key) => {
                             let prop = {user, key, 'index' : key};
-                            // console.log(user)
+                            console.log(prop)
                             return <User {...prop} handleDelete={this.handleDeleteEvent.bind(this)}/>
                         })
                     }
@@ -955,7 +954,7 @@ const connect = (WrappedComponent, mapStateToProps) => {
         }
 
         componentWillMount(){
-            // console.log(this.props)
+            console.log(this.props)
             let stateProps = mapStateToProps();
             this.setState({
                 allProps : {
@@ -965,7 +964,17 @@ const connect = (WrappedComponent, mapStateToProps) => {
             })
         }
 
+        componentWillUnmount(){
+            console.log(this.props)
+            this.setState({
+                allProps : {
+                    ...this.props,
+                }
+            })
+        }
+
         render(){
+            console.log(this.state.allProps)
             return(
                 <WrappedComponent {...this.state.allProps}/>
             )
