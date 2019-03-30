@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Content from '../components/Content'
-import ThemeSwitch from '../components/ThemeSwitch'
+// import ThemeSwitch from '../components/ThemeSwitch'
 
 const mapStateToProps = (state) => {
     return {
@@ -24,10 +24,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const content = connect(mapStateToProps)(Content);
-const themeSwitch = connect(mapStateToProps, mapDispatchToProps)(ThemeSwitch);
+const content = connect(mapStateToProps, mapDispatchToProps)(Content);
+// const themeSwitch = connect(mapStateToProps, mapDispatchToProps)(ThemeSwitch);
 
 export {
     content,
-    themeSwitch
+    // themeSwitch
 }

@@ -5,13 +5,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // import ThemeSwitch from './ThemeSwitch'
 import {connect} from 'react-redux'
-import {themeSwitch as ThemeSwitch} from '../containers/Content'
+import ThemeSwitch from '../components/ThemeSwitch'
+// import ThemeSwitch from '../components/Content'
 
 class Content extends Component {
     // static propTypes = {
     //     themeColor : PropTypes.string
     // };
-
+    //
     // constructor (){
     //     super();
     //     this.state = {
@@ -35,7 +36,7 @@ class Content extends Component {
         return (
             <div>
                 <p style={{color:this.props.themeColor}}>React.js 小书内容</p>
-                <ThemeSwitch />
+                <ThemeSwitch {...this.props}/>
             </div>
         )
     }
